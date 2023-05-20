@@ -1,6 +1,21 @@
-<script>
-  //
+<script lang="ts">
+  import NotebookBar from "$lib/components/NotebookBar.svelte";
+  import Editor from "$lib/components/Editor.svelte";
+
+  import type { NotebookType } from "$lib/types/notebook";
+
+  let notebooks: NotebookType[] = [
+    { id: 1, name: "testname1", text: "asdsdfkdf" },
+    { id: 2, name: "testname2", text: "bbsddsfkdfkdfdegj" },
+  ];
 </script>
+
+<div class="mx-4 flex w-full flex-row">
+  <div class="w-1/3">
+    <NotebookBar {notebooks} />
+  </div>
+  <div class="w-2/3" />
+</div>
 
 <h1>Welcome to SvelteKit</h1>
 <p>
