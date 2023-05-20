@@ -5,16 +5,39 @@
   import type { NotebookType } from "$lib/types/notebook";
 
   let notebooks: NotebookType[] = [
-    { id: 1, name: "testname1", text: "asdsdfkdf" },
-    { id: 2, name: "testname2", text: "bbsddsfkdfkdfdegj" },
+    {
+      id: 1,
+      name: "Notebook Name 1",
+      text: "This is the content inside of notebook 1",
+    },
+    {
+      id: 2,
+      name: "Notebook Name 2",
+      text: "This is the content inside notebook 2",
+    },
+    {
+      id: 3,
+      name: "Notebook Name 3",
+      text: "This is the content inside notebook 3",
+    },
   ];
+  let selected_notebook = notebooks[0];
 </script>
 
-<div class="mx-4 flex w-full flex-row">
-  <div class="w-1/3">
-    <NotebookBar {notebooks} />
+<!-- 
+  TODO:
+  Use stores
+  Use local storage
+  Use dispatch instead of bind
+  
+ -->
+<div class="flex flex-row">
+  <div class="max-w-sm grow">
+    <NotebookBar {notebooks} bind:selected_notebook />
   </div>
-  <div class="w-2/3" />
+  <div class="grow">
+    <Editor bind:notebook={selected_notebook} />
+  </div>
 </div>
 
 <h1>Welcome to SvelteKit</h1>

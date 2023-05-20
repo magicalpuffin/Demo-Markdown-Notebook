@@ -14,7 +14,7 @@
     <a
       class="px-6 text-xl font-bold text-gray-800 hover:text-blue-400 md:text-2xl"
       href="/"
-      >Markdon Notebook
+      >Markdown Notebook
     </a>
     <!-- Mobile menu button -->
     <button
