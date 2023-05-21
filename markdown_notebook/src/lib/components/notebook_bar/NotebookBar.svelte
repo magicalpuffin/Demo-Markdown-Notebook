@@ -1,7 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
   import type { NotebookType } from "$lib/types/notebook";
-  import NotebookBarItem from "$lib/components/NotebookBarItem.svelte";
+  import NotebookBarItem from "$lib/components/notebook_bar/NotebookBarItem.svelte";
 
   const dispatch = createEventDispatcher();
 

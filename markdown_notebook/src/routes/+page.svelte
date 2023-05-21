@@ -1,6 +1,6 @@
 <script lang="ts">
-  import NotebookBar from "$lib/components/NotebookBar.svelte";
-  import NotebookContent from "$lib/components/NotebookContent.svelte";
+  import NotebookBar from "$lib/components/notebook_bar/NotebookBar.svelte";
+  import NotebookContent from "$lib/components/notebook_content/NotebookContent.svelte";
 
   import type { NotebookType } from "$lib/types/notebook";
 
