@@ -1,6 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
   import type { NotebookType } from "$lib/types/notebook";
+  import NotebookBarItem from "$lib/components/NotebookBarItem.svelte";
 
   const dispatch = createEventDispatcher();
 
@@ -14,17 +15,22 @@
   Sort by name, or add order number and sortable?
   Deleting
   Overflow text
-  Mobile collapse into 
+  Mobile collapse into button
  -->
 
-<div class="flex flex-col rounded-lg bg-gray-100">
+<div class="flex flex-col bg-gray-100">
+  <a
+    class="px-6 py-2 text-xl font-bold text-gray-800 hover:text-blue-400 md:text-2xl"
+    href="/"
+    >Markdown Notebook
+  </a>
   {#each notebooks as notebook (notebook.id)}
     {#if notebook === selected_notebook}
-      <button
-        class="bg-blue-100 px-4 text-start font-semibold"
-        on:click={() => (selected_notebook = notebook)}
-      >
-        {notebook.name}
+      <button class="border bg-blue-100 px-4 text-start font-semibold">
+        <NotebookBarItem
+          on:select={() => (selected_notebook = notebook)}
+          {notebook}
+        />
       </button>
     {:else}
       <button

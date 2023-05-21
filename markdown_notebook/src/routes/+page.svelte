@@ -1,6 +1,6 @@
 <script lang="ts">
   import NotebookBar from "$lib/components/NotebookBar.svelte";
-  import Editor from "$lib/components/Editor.svelte";
+  import NotebookContent from "$lib/components/NotebookContent.svelte";
 
   import type { NotebookType } from "$lib/types/notebook";
 
@@ -36,22 +36,11 @@
     <NotebookBar {notebooks} bind:selected_notebook />
   </div>
   <div class="grow">
-    <Editor bind:notebook={selected_notebook} />
+    <NotebookContent bind:notebook={selected_notebook} />
   </div>
 </div>
 
-<h1>Welcome to SvelteKit</h1>
-<p>
-  Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation
-</p>
-
-<!-- Left Notebook Bar -->
-<!-- Notebooks -->
-
-<!-- Toolbar -->
-<!-- Editor -->
-
-<h1 class="text-3xl font-bold underline">Hello world!</h1>
+<!-- <h1 class="text-3xl font-bold underline">Hello world!</h1>
 
 <div
   class="mx-auto max-w-sm space-y-2 rounded-xl bg-white px-8 py-8 shadow-lg sm:flex sm:items-center sm:space-x-6 sm:space-y-0 sm:py-4"
@@ -71,4 +60,4 @@
       >Message</button
     >
   </div>
-</div>
+</div> -->
