@@ -26,12 +26,12 @@
   </a>
   {#each notebooks as notebook (notebook.id)}
     {#if notebook === selected_notebook}
-      <button class="border bg-blue-100 px-4 text-start font-semibold">
+      <div class="border bg-blue-100 px-4 text-start font-semibold">
         <NotebookBarItem
           on:select={() => (selected_notebook = notebook)}
           {notebook}
         />
-      </button>
+      </div>
     {:else}
       <button
         class="px-4 text-start hover:bg-blue-100"
