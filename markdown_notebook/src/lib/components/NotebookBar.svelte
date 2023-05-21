@@ -7,6 +7,19 @@
 
   export let notebooks: NotebookType[];
   export let selected_notebook = notebooks[0];
+
+  function updateNotebook(notebook: NotebookType) {
+    const i = notebooks.findIndex((t) => t.id === notebook.id);
+    notebooks[i] = { ...notebooks[i], ...notebook };
+  }
+
+  function selectNotebook(notebook: NotebookType) {
+    selected_notebook = notebook;
+  }
+
+  function removeNotebook(notebook: NotebookType) {
+    notebooks = notebooks.filter((t) => t.id !== notebook.id);
+  }
 </script>
 
 <!-- 
@@ -28,13 +41,15 @@
     {#if notebook === selected_notebook}
       <div class="border bg-blue-100 px-4 text-start font-semibold">
         <NotebookBarItem
-          on:select={() => (selected_notebook = notebook)}
+          on:select={(e) => selectNotebook(e.detail)}
+          on:update={(e) => updateNotebook(e.detail)}
+          on:remove={(e) => removeNotebook(e.detail)}
           {notebook}
         />
       </div>
     {:else}
       <button
-        class="px-4 text-start hover:bg-blue-100"
+        class="truncate px-4 text-start hover:bg-blue-100"
         on:click={() => (selected_notebook = notebook)}
       >
         {notebook.name}
