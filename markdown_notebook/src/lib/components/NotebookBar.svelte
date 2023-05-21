@@ -11,6 +11,9 @@
   function updateNotebook(notebook: NotebookType) {
     const i = notebooks.findIndex((t) => t.id === notebook.id);
     notebooks[i] = { ...notebooks[i], ...notebook };
+
+    // reselects notebook due to mutation
+    selectNotebook(notebooks[i]);
   }
 
   function selectNotebook(notebook: NotebookType) {
@@ -24,10 +27,7 @@
 
 <!-- 
   TODO:
-  Editing names
   Sort by name, or add order number and sortable?
-  Deleting
-  Overflow text
   Mobile collapse into button
  -->
 
@@ -38,22 +38,12 @@
     >Markdown Notebook
   </a>
   {#each notebooks as notebook (notebook.id)}
-    {#if notebook === selected_notebook}
-      <div class="border bg-blue-100 px-4 text-start font-semibold">
-        <NotebookBarItem
-          on:select={(e) => selectNotebook(e.detail)}
-          on:update={(e) => updateNotebook(e.detail)}
-          on:remove={(e) => removeNotebook(e.detail)}
-          {notebook}
-        />
-      </div>
-    {:else}
-      <button
-        class="truncate px-4 text-start hover:bg-blue-100"
-        on:click={() => (selected_notebook = notebook)}
-      >
-        {notebook.name}
-      </button>
-    {/if}
+    <NotebookBarItem
+      on:select={(e) => selectNotebook(e.detail)}
+      on:update={(e) => updateNotebook(e.detail)}
+      on:remove={(e) => removeNotebook(e.detail)}
+      selected={notebook === selected_notebook}
+      {notebook}
+    />
   {/each}
 </div>

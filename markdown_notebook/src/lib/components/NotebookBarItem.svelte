@@ -5,6 +5,7 @@
   const dispatch = createEventDispatcher();
 
   export let notebook: NotebookType;
+  export let selected = false;
 
   let editing = false;
 
@@ -16,6 +17,7 @@
   }
 
   function onSelect() {
+    // selection managed by parent
     dispatch("select", notebook);
   }
 
@@ -31,16 +33,26 @@
   function onRemove() {
     dispatch("remove", notebook);
   }
+
+  function focusOnInit(node: HTMLElement) {
+    if (node && typeof node.focus === "function") {
+      node.focus();
+    }
+  }
 </script>
 
-<div>
+<div
+  class={selected
+    ? "border bg-blue-100 px-4 font-semibold"
+    : "px-4 hover:bg-blue-100"}
+>
   {#if editing}
     <form
       on:submit|preventDefault={onSave}
       on:keydown={(e) => e.key === "Escape" && onCancel()}
       class="flex flex-row justify-between"
     >
-      <input type="text" bind:value={notebook_name} />
+      <input type="text" bind:value={notebook_name} use:focusOnInit />
       <button
         class="rounded-lg border border-blue-600 px-2 text-blue-600 enabled:hover:bg-blue-600 enabled:hover:text-white disabled:opacity-50"
         type="submit"
@@ -52,19 +64,21 @@
       <button class="grow truncate text-start" on:click={onSelect}
         >{notebook.name}</button
       >
-      <div class="flex flex-row flex-nowrap">
-        <button
-          class="rounded-lg border border-blue-600 px-2 text-blue-600 hover:bg-blue-600 hover:text-white"
-          on:click={() => (editing = true)}
-          >Edit
-        </button>
-        <button
-          class="rounded-lg border border-red-600 px-2 text-red-600 hover:bg-red-600 hover:text-white"
-          on:click={onRemove}
-        >
-          X
-        </button>
-      </div>
+      {#if selected}
+        <div class="flex flex-row flex-nowrap">
+          <button
+            class="rounded-lg border border-blue-600 px-2 text-blue-600 hover:bg-blue-600 hover:text-white"
+            on:click={() => (editing = true)}
+            >Edit
+          </button>
+          <button
+            class="rounded-lg border border-red-600 px-2 text-red-600 hover:bg-red-600 hover:text-white"
+            on:click={onRemove}
+          >
+            X
+          </button>
+        </div>
+      {/if}
     </div>
   {/if}
 </div>
