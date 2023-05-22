@@ -11,8 +11,8 @@
 
   let notebook_name = notebook.name;
 
-  function update(updated_notebook: Partial<NotebookType>) {
-    notebook = { ...notebook, ...updated_notebook };
+  function update(notebook_changes: Partial<NotebookType>) {
+    notebook = { ...notebook, ...notebook_changes };
     dispatch("update", notebook);
   }
 
@@ -30,6 +30,7 @@
     notebook_name = notebook.name;
     editing = false;
   }
+
   function onRemove() {
     dispatch("remove", notebook);
   }

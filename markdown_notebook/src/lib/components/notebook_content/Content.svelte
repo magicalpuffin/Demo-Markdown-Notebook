@@ -7,7 +7,7 @@
   export let notebook: NotebookType;
 
   function onEdit() {
-    dispatch("edit", notebook);
+    dispatch("toggleEdit", true);
   }
 </script>
 

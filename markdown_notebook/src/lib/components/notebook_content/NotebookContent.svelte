@@ -8,16 +8,11 @@
 
   export let notebook: NotebookType;
 
-  function updateNotebook(new_notebook: NotebookType) {
-    notebook = { ...notebook, ...new_notebook };
-    editing = false;
-  }
-
   let editing = false;
 </script>
 
 {#if editing}
-  <Editor {notebook} on:update={(e) => updateNotebook(e.detail)} />
+  <Editor {notebook} on:update on:toggleEdit={(e) => (editing = e.detail)} />
 {:else}
-  <Content {notebook} on:edit={() => (editing = true)} />
+  <Content {notebook} on:toggleEdit={(e) => (editing = e.detail)} />
 {/if}

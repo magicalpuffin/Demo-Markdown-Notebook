@@ -34,17 +34,21 @@
     editorsession = editor.getSession();
   });
 
-  function update(updated_notebook: Partial<NotebookType>) {
-    notebook = { ...notebook, ...updated_notebook };
+  function update(notebook_changes: Partial<NotebookType>) {
+    notebook = { ...notebook, ...notebook_changes };
     dispatch("update", notebook);
   }
 
   function onSave() {
     if (editorsession != null) {
-      console.log(editorsession.getValue());
       notebook_text = editorsession.getValue();
     }
     update({ text: notebook_text });
+    dispatch("toggleEdit", false);
+  }
+
+  function onCancel() {
+    dispatch("toggleEdit", false);
   }
 </script>
 
@@ -52,10 +56,17 @@
   <form on:submit|preventDefault={onSave}>
     <div class="flex flex-row justify-between">
       <h1 class="text-xl font-bold">{notebook.name}</h1>
-      <button
-        class="rounded-lg border border-blue-600 px-4 text-blue-600 hover:bg-blue-600 hover:text-white"
-        type="submit">Save</button
-      >
+      <div>
+        <button
+          class="rounded-lg border border-blue-600 px-4 text-blue-600 hover:bg-blue-600 hover:text-white"
+          type="submit">Save</button
+        >
+        <button
+          class="rounded-lg border border-red-600 px-4 text-red-600 hover:bg-red-600 hover:text-white"
+          type="button"
+          on:click={onCancel}>Cancel</button
+        >
+      </div>
     </div>
     <div bind:this={editorEl} />
   </form>

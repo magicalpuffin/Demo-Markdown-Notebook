@@ -7,22 +7,6 @@
 
   export let notebooks: NotebookType[];
   export let selected_notebook = notebooks[0];
-
-  function updateNotebook(notebook: NotebookType) {
-    const i = notebooks.findIndex((t) => t.id === notebook.id);
-    notebooks[i] = { ...notebooks[i], ...notebook };
-
-    // reselects notebook due to mutation
-    selectNotebook(notebooks[i]);
-  }
-
-  function selectNotebook(notebook: NotebookType) {
-    selected_notebook = notebook;
-  }
-
-  function removeNotebook(notebook: NotebookType) {
-    notebooks = notebooks.filter((t) => t.id !== notebook.id);
-  }
 </script>
 
 <!-- 
@@ -39,9 +23,9 @@
   </a>
   {#each notebooks as notebook (notebook.id)}
     <NotebookBarItem
-      on:select={(e) => selectNotebook(e.detail)}
-      on:update={(e) => updateNotebook(e.detail)}
-      on:remove={(e) => removeNotebook(e.detail)}
+      on:select
+      on:update
+      on:remove
       selected={notebook === selected_notebook}
       {notebook}
     />
