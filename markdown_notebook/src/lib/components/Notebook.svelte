@@ -39,6 +39,12 @@
     };
     notebooks = [...notebooks, new_notebook];
   }
+
+  let showMenu = false;
+
+  function toggleNavbar() {
+    showMenu = !showMenu;
+  }
 </script>
 
 <!-- 
@@ -48,8 +54,40 @@
     Alert/notifications
    -->
 
-<div class="flex flex-col md:flex-row">
-  <div class="grow md:max-w-sm">
+<nav class="flex flex-row items-center justify-between border-b">
+  <a
+    class="px-4 py-2 text-xl font-bold text-gray-800 hover:text-blue-400 md:text-2xl"
+    href="/"
+    >Markdown Notebook
+  </a>
+  <button
+    on:click={toggleNavbar}
+    class="flex px-4 text-gray-800 hover:text-gray-400 focus:text-gray-400 focus:outline-none md:hidden"
+    type="button"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke-width="1.5"
+      stroke="currentColor"
+      class="h-6 w-6"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+      />
+    </svg>
+  </button>
+</nav>
+
+<div class="my-2 flex flex-col md:flex-row">
+  <div
+    class="grow flex-col md:flex md:w-1/3 md:max-w-sm {showMenu
+      ? 'flex'
+      : 'hidden'}"
+  >
     <NotebookBar
       {notebooks}
       {selected_notebook}
@@ -59,7 +97,7 @@
       on:remove={(e) => removeNotebook(e.detail)}
     />
   </div>
-  <div class="grow">
+  <div class="mx-4 grow md:w-2/3">
     <NotebookContent
       notebook={selected_notebook}
       on:update={(e) => updateNotebook(e.detail)}

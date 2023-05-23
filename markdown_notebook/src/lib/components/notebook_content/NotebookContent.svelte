@@ -18,8 +18,10 @@
   Set a max size
  -->
 
-{#if editing}
-  <Editor {notebook} on:update on:toggleEdit={(e) => (editing = e.detail)} />
-{:else}
-  <Content {notebook} on:toggleEdit={(e) => (editing = e.detail)} />
-{/if}
+<div class="flex flex-col">
+  {#if editing}
+    <Editor {notebook} on:update on:toggleEdit={(e) => (editing = e.detail)} />
+  {:else}
+    <Content {notebook} on:toggleEdit={(e) => (editing = e.detail)} />
+  {/if}
+</div>

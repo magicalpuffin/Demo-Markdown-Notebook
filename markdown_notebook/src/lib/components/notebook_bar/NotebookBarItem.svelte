@@ -43,9 +43,9 @@
 </script>
 
 <div
-  class={selected
-    ? "border bg-blue-100 px-4 font-semibold"
-    : "px-4 hover:bg-blue-100"}
+  class="px-4 {selected
+    ? 'border bg-blue-100 font-semibold'
+    : ' hover:bg-blue-100'}"
 >
   {#if editing}
     <form

@@ -11,13 +11,11 @@
   }
 </script>
 
-<div class="flex flex-col px-4 py-2">
-  <div class="flex flex-row justify-between">
-    <h1 class="text-xl font-bold">{notebook.name}</h1>
-    <button
-      class="rounded-lg border border-blue-600 px-4 text-blue-600 hover:bg-blue-600 hover:text-white"
-      on:click={onEdit}>Edit</button
-    >
-  </div>
-  <article class="prose">{notebook.text}</article>
+<div class="flex flex-row justify-between">
+  <h1 class="text-xl font-bold">{notebook.name}</h1>
+  <button
+    class="rounded-lg border border-blue-600 px-4 text-blue-600 hover:bg-blue-600 hover:text-white"
+    on:click={onEdit}>Edit</button
+  >
 </div>
+<article class="prose">{notebook.text}</article>

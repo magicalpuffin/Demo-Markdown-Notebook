@@ -52,22 +52,20 @@
   }
 </script>
 
-<div class="flex flex-col px-4 py-2">
-  <form on:submit|preventDefault={onSave}>
-    <div class="flex flex-row justify-between">
-      <h1 class="text-xl font-bold">{notebook.name}</h1>
-      <div>
-        <button
-          class="rounded-lg border border-blue-600 px-4 text-blue-600 hover:bg-blue-600 hover:text-white"
-          type="submit">Save</button
-        >
-        <button
-          class="rounded-lg border border-red-600 px-4 text-red-600 hover:bg-red-600 hover:text-white"
-          type="button"
-          on:click={onCancel}>Cancel</button
-        >
-      </div>
+<form on:submit|preventDefault={onSave}>
+  <div class="flex flex-row justify-between">
+    <h1 class="text-xl font-bold">{notebook.name}</h1>
+    <div>
+      <button
+        class="rounded-lg border border-blue-600 px-4 text-blue-600 hover:bg-blue-600 hover:text-white"
+        type="submit">Save</button
+      >
+      <button
+        class="rounded-lg border border-red-600 px-4 text-red-600 hover:bg-red-600 hover:text-white"
+        type="button"
+        on:click={onCancel}>Cancel</button
+      >
     </div>
-    <div bind:this={editorEl} />
-  </form>
-</div>
+  </div>
+  <div bind:this={editorEl} />
+</form>
