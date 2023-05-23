@@ -24,20 +24,36 @@
     notebooks = notebooks.filter((t) => t.id !== notebook.id);
     selectNotebook(notebooks[0]);
   }
+
+  function createNotebook() {
+    let new_notebook_id = 1;
+
+    if (notebooks.length > 0) {
+      new_notebook_id = Math.max(...notebooks.map((t) => t.id)) + 1;
+    }
+
+    let new_notebook: NotebookType = {
+      id: new_notebook_id,
+      name: "new notebook",
+      text: "",
+    };
+    notebooks = [...notebooks, new_notebook];
+  }
 </script>
 
 <!-- 
     TODO:
-    Use stores
-    Use local storage
-    Use dispatch instead of bind?
-    
+    Use icons instead of names
+    Account for when there are no notebooks
+    Alert/notifications
    -->
-<div class="flex flex-row">
-  <div class="max-w-sm grow">
+
+<div class="flex flex-col md:flex-row">
+  <div class="grow md:max-w-sm">
     <NotebookBar
       {notebooks}
       {selected_notebook}
+      on:create={() => createNotebook()}
       on:select={(e) => selectNotebook(e.detail)}
       on:update={(e) => updateNotebook(e.detail)}
       on:remove={(e) => removeNotebook(e.detail)}

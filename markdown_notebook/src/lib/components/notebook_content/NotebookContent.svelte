@@ -11,6 +11,13 @@
   let editing = false;
 </script>
 
+<!-- 
+  TODO:
+  Render content as markdown
+  Add a markdown preview
+  Set a max size
+ -->
+
 {#if editing}
   <Editor {notebook} on:update on:toggleEdit={(e) => (editing = e.detail)} />
 {:else}
