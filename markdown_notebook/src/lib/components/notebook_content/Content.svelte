@@ -2,9 +2,31 @@
   import { createEventDispatcher, onMount } from "svelte";
   import type { NotebookType } from "$lib/types/notebook";
 
+  import { marked } from "marked";
+  import createDOMPurify from "dompurify";
+
   const dispatch = createEventDispatcher();
 
   export let notebook: NotebookType;
+
+  $: html_notebook_content = text_to_html(notebook.text);
+
+  function text_to_html(text: string) {
+    let html_text = text;
+
+    if (typeof window !== "undefined") {
+      let DOMPurify = createDOMPurify(window);
+
+      html_text = DOMPurify.sanitize(
+        marked(text, {
+          mangle: false,
+          headerIds: false,
+        })
+      );
+    }
+
+    return html_text;
+  }
 
   function onEdit() {
     dispatch("toggleEdit", true);
@@ -18,4 +40,5 @@
     on:click={onEdit}>Edit</button
   >
 </div>
-<article class="prose">{notebook.text}</article>
+
+<article class="prose">{@html html_notebook_content}</article>
