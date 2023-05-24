@@ -18,7 +18,7 @@
   Set a max size
  -->
 
-<div class="flex flex-col">
+<div class="mx-auto flex flex-col md:max-w-screen-md">
   {#if editing}
     <Editor {notebook} on:update on:toggleEdit={(e) => (editing = e.detail)} />
   {:else}

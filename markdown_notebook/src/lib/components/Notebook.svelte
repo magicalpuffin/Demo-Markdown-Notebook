@@ -54,12 +54,7 @@
     Alert/notifications
    -->
 
-<nav class="flex flex-row items-center justify-between border-b">
-  <a
-    class="px-4 py-2 text-xl font-bold text-gray-800 hover:text-blue-400 md:text-2xl"
-    href="/"
-    >Markdown Notebook
-  </a>
+<div class="mt-2 flex w-full flex-col md:flex-row">
   <button
     on:click={toggleNavbar}
     class="flex px-4 text-gray-800 hover:text-gray-400 focus:text-gray-400 focus:outline-none md:hidden"
@@ -80,13 +75,8 @@
       />
     </svg>
   </button>
-</nav>
-
-<div class="my-2 flex flex-col md:flex-row">
   <div
-    class="grow flex-col md:flex md:w-1/3 md:max-w-sm {showMenu
-      ? 'flex'
-      : 'hidden'}"
+    class="flex-col md:flex md:w-1/3 md:max-w-sm {showMenu ? 'flex' : 'hidden'}"
   >
     <NotebookBar
       {notebooks}

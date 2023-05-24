@@ -29,7 +29,7 @@
   class="rounded-lg border border-blue-600 px-4 text-blue-600 hover:bg-blue-600 hover:text-white"
   on:click={onCreate}>Create</button
 >
-<div class=" bg-gray-100">
+<div class="h-full bg-gray-100">
   {#each notebooks as notebook (notebook.id)}
     <NotebookBarItem
       on:select
