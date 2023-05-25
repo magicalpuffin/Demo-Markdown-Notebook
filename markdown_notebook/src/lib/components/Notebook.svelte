@@ -50,8 +50,9 @@
 <!-- 
     TODO:
     Use icons instead of names
-    Account for when there are no notebooks
+    Display something for when there are no notebooks or empty
     Alert/notifications
+    Make default notebooks more interesting
    -->
 
 <div class="mt-2 flex w-full flex-col md:flex-row">

@@ -17,12 +17,12 @@
   TODO:
   Sort by name, or add order number and sortable?
   Bulk edit, bulk delete?
-  Mobile collapse into button
-  Create new notebooks
+  Create new notebooks, icon, on different menu
   Auto select nearest id creating/deleting
-
-  BUG:
-  Resizing issues when selecting items, being pushed by content
+  Button to collapse, allways visible
+  On create should auto select newest, auto start edit
+  Remove bold on edit and x for selected
+  Should have a drop down button instead of edit and x
  -->
 
 <button

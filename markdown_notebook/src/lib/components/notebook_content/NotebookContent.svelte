@@ -13,9 +13,9 @@
 
 <!-- 
   TODO:
-  Render content as markdown
   Add a markdown preview
-  Set a max size
+  Edit focus incorrect, selects all text inside
+  Notebook name kind of conflicts with other headers
  -->
 
 <div class="mx-auto flex flex-col md:max-w-screen-md">
