@@ -14,6 +14,8 @@ export default {
       typography: {
         DEFAULT: {
           css: {
+            maxWidth: "100ch",
+            lineHeight: round(24 / 16),
             p: {
               marginTop: em(10, 16),
               marginBottom: em(10, 16),
