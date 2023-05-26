@@ -4,6 +4,4 @@
     href="/"
     >Markdown Notebook
   </a>
-  <a href="/" class="px-4 text-gray-800 hover:text-blue-400"> Notebooks </a>
-  <a href="/info" class="px-4 text-gray-800 hover:text-blue-400"> Info </a>
 </nav>
