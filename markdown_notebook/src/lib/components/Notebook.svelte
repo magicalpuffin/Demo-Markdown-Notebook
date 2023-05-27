@@ -8,6 +8,19 @@
 
   let selected_notebook = notebooks[0];
 
+  let showMenu = false;
+
+  let editing = false;
+
+  function toggleNavbar() {
+    showMenu = !showMenu;
+  }
+
+  function selectNotebook(notebook: NotebookType) {
+    selected_notebook = notebook;
+    toggleEditting(false);
+  }
+
   function updateNotebook(notebook: NotebookType) {
     const i = notebooks.findIndex((t) => t.id === notebook.id);
     notebooks[i] = { ...notebooks[i], ...notebook };
@@ -16,13 +29,16 @@
     selectNotebook(notebooks[i]);
   }
 
-  function selectNotebook(notebook: NotebookType) {
-    selected_notebook = notebook;
-  }
-
   function removeNotebook(notebook: NotebookType) {
     notebooks = notebooks.filter((t) => t.id !== notebook.id);
-    selectNotebook(notebooks[0]);
+
+    let reselect_index: number = 0;
+    if (notebook.id > 1) {
+      // notebook.id increments from 1, array index increments from 0
+      reselect_index = notebook.id - 2;
+    }
+
+    selectNotebook(notebooks[reselect_index]);
   }
 
   function createNotebook() {
@@ -40,19 +56,17 @@
     notebooks = [...notebooks, new_notebook];
   }
 
-  let showMenu = false;
-
-  function toggleNavbar() {
-    showMenu = !showMenu;
+  function toggleEditting(editing_state: boolean) {
+    editing = editing_state;
   }
 </script>
 
 <!-- 
     TODO:
     Use icons instead of names
-    Display something for when there are no notebooks or empty
     Alert/notifications
     Make default notebooks more interesting
+    
    -->
 
 <div class="mt-2 flex w-full flex-col md:flex-row">
@@ -91,7 +105,9 @@
   <div class="mx-4 grow md:w-2/3">
     <NotebookContent
       notebook={selected_notebook}
+      {editing}
       on:update={(e) => updateNotebook(e.detail)}
+      on:toggleEdit={(e) => toggleEditting(e.detail)}
     />
   </div>
 </div>

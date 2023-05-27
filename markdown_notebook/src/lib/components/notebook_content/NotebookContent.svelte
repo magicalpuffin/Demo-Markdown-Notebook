@@ -8,7 +8,7 @@
 
   export let notebook: NotebookType;
 
-  let editing = false;
+  export let editing = false;
 </script>
 
 <!-- 
@@ -20,8 +20,8 @@
 
 <div class="mx-auto flex flex-col md:max-w-screen-md">
   {#if editing}
-    <Editor {notebook} on:update on:toggleEdit={(e) => (editing = e.detail)} />
+    <Editor {notebook} on:update on:toggleEdit />
   {:else}
-    <Content {notebook} on:toggleEdit={(e) => (editing = e.detail)} />
+    <Content {notebook} on:toggleEdit />
   {/if}
 </div>

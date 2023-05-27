@@ -11,14 +11,18 @@
 
   $: html_notebook_content = text_to_html(notebook.text);
 
-  function text_to_html(text: string) {
+  function text_to_html(text: string): string {
     let html_text = text;
+
+    if (!html_text) {
+      html_text = "*This notebook is empty. Edit to add text.*";
+    }
 
     if (typeof window !== "undefined") {
       let DOMPurify = createDOMPurify(window);
 
       html_text = DOMPurify.sanitize(
-        marked(text, {
+        marked(html_text, {
           mangle: false,
           headerIds: false,
         })
