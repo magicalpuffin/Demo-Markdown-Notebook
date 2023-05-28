@@ -66,7 +66,9 @@
     Use icons instead of names
     Alert/notifications
     Make default notebooks more interesting
-    
+    Refactor, move functions to ts file
+    Add unit testing
+    Two scroll bars, one on content, one on editor bar
    -->
 
 <div class="mt-2 flex w-full flex-col md:flex-row">

@@ -11,6 +11,12 @@
 
   let notebook_name = notebook.name;
 
+  let showMenu = false;
+
+  function toggleDropdown() {
+    showMenu = !showMenu;
+  }
+
   function update(notebook_changes: Partial<NotebookType>) {
     notebook = { ...notebook, ...notebook_changes };
     dispatch("update", notebook);
@@ -40,46 +46,119 @@
       node.focus();
     }
   }
+
+  export function clickOutside(node: HTMLElement) {
+    const handleClick = (event: MouseEvent) => {
+      if (!node.contains(event.target as Node)) {
+        node.dispatchEvent(new CustomEvent("click_outside"));
+      }
+    };
+
+    document.addEventListener("click", handleClick, true);
+
+    return {
+      destroy() {
+        document.removeEventListener("click", handleClick, true);
+      },
+    };
+  }
+
+  export function focusOutside(node: HTMLElement) {
+    const handleFocus = (event: Event) => {
+      if (!node.contains(event.target as Node)) {
+        node.dispatchEvent(new CustomEvent("focusin_outside"));
+      }
+    };
+
+    document.addEventListener("focusin", handleFocus, true);
+
+    return {
+      destroy() {
+        document.removeEventListener("focusin", handleFocus, true);
+      },
+    };
+  }
 </script>
 
-<div
-  class="px-4 {selected
-    ? 'border bg-blue-100 font-semibold'
-    : ' hover:bg-blue-100'}"
->
-  {#if editing}
-    <form
-      on:submit|preventDefault={onSave}
-      on:keydown={(e) => e.key === "Escape" && onCancel()}
-      class="flex flex-row justify-between"
-    >
-      <input type="text" bind:value={notebook_name} use:focusOnInit />
-      <button
-        class="rounded-lg border border-blue-600 px-2 text-blue-600 enabled:hover:bg-blue-600 enabled:hover:text-white disabled:opacity-50"
-        type="submit"
-        disabled={!notebook_name}>Save</button
+<div class="relative {selected ? 'border bg-blue-100' : ' hover:bg-blue-100'}">
+  <div class="mx-4 flex flex-row justify-between">
+    {#if editing}
+      <form
+        on:submit|preventDefault={onSave}
+        on:keydown={(e) => e.key === "Escape" && onCancel()}
       >
-    </form>
-  {:else}
-    <div class="flex flex-row justify-between">
-      <button class="grow truncate text-start" on:click={onSelect}
-        >{notebook.name}</button
+        <input
+          type="text"
+          bind:value={notebook_name}
+          use:focusOnInit
+          on:blur={onCancel}
+        />
+      </form>
+    {:else}
+      <button
+        class="grow truncate text-start {selected ? 'font-semibold' : ''}"
+        on:click={onSelect}>{notebook.name}</button
       >
       {#if selected}
-        <div class="flex flex-row flex-nowrap">
-          <button
-            class="rounded-lg border border-blue-600 px-2 text-blue-600 hover:bg-blue-600 hover:text-white"
-            on:click={() => (editing = true)}
-            >Edit
-          </button>
-          <button
-            class="rounded-lg border border-red-600 px-2 text-red-600 hover:bg-red-600 hover:text-white"
-            on:click={onRemove}
+        <button
+          class="px-2 text-gray-800 hover:text-gray-400 focus:text-gray-400 focus:outline-none"
+          type="button"
+          on:click={toggleDropdown}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            viewBox="0 0 16 16"
           >
-            X
-          </button>
-        </div>
+            <path
+              d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"
+            />
+          </svg>
+        </button>
       {/if}
+    {/if}
+  </div>
+  {#if showMenu}
+    <div
+      class="absolute right-0 z-10 rounded-md bg-white shadow-md"
+      tabindex="-1"
+      use:focusOnInit
+      use:clickOutside
+      use:focusOutside
+      on:keydown={(e) => e.key === "Escape" && (showMenu = false)}
+      on:click_outside={() => (showMenu = false)}
+      on:focusin_outside={() => (showMenu = false)}
+    >
+      <div class="mx-2 my-2 flex flex-col flex-nowrap">
+        <button
+          class="flex flex-row rounded-lg border border-blue-600 px-2 text-blue-600 hover:bg-blue-600 hover:text-white"
+          on:click={() => (editing = true)}
+        >
+          <svg
+            width="24px"
+            height="24px"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            ><path
+              d="M14.363 5.652l1.48-1.48a2 2 0 012.829 0l1.414 1.414a2 2 0 010 2.828l-1.48 1.48m-4.243-4.242l-9.616 9.615a2 2 0 00-.578 1.238l-.242 2.74a1 1 0 001.084 1.085l2.74-.242a2 2 0 001.24-.578l9.615-9.616m-4.243-4.242l4.243 4.242"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            /></svg
+          >Rename
+        </button>
+        <button
+          class="rounded-lg border border-red-600 px-2 text-red-600 hover:bg-red-600 hover:text-white"
+          on:click={onRemove}
+        >
+          X
+        </button>
+      </div>
     </div>
   {/if}
 </div>
