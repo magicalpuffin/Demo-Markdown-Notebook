@@ -6,7 +6,7 @@
 
   const dispatch = createEventDispatcher();
 
-  export let notebook: NotebookType;
+  export let notebook: NotebookType | null;
 
   export let editing = false;
 </script>
@@ -19,9 +19,13 @@
  -->
 
 <div class="mx-auto flex flex-col md:max-w-screen-md">
-  {#if editing}
-    <Editor {notebook} on:update on:toggleEdit />
+  {#if notebook}
+    {#if editing}
+      <Editor {notebook} on:update on:toggleEdit />
+    {:else}
+      <Content {notebook} on:toggleEdit />
+    {/if}
   {:else}
-    <Content {notebook} on:toggleEdit />
+    <p>No notebook to display</p>
   {/if}
 </div>

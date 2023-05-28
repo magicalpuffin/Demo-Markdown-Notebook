@@ -6,7 +6,7 @@
   const dispatch = createEventDispatcher();
 
   export let notebooks: NotebookType[];
-  export let selected_notebook = notebooks[0];
+  export let selected_notebook: NotebookType | null = notebooks[0];
 
   function onCreate() {
     dispatch("create");
@@ -30,13 +30,17 @@
   on:click={onCreate}>Create</button
 >
 <div class="h-full bg-gray-100">
-  {#each notebooks as notebook (notebook.id)}
-    <NotebookBarItem
-      on:select
-      on:update
-      on:remove
-      selected={notebook === selected_notebook}
-      {notebook}
-    />
-  {/each}
+  {#if notebooks.length < 1}
+    <p>No notebooks to display</p>
+  {:else}
+    {#each notebooks as notebook (notebook.id)}
+      <NotebookBarItem
+        on:select
+        on:update
+        on:remove
+        selected={notebook === selected_notebook}
+        {notebook}
+      />
+    {/each}
+  {/if}
 </div>

@@ -11,46 +11,52 @@
 
   export let notebooks: NotebookType[] = [];
 
-  let selected_notebook = notebooks[0];
-
+  let selected_notebook: NotebookType | null = notebooks[0];
   let showMenu = false;
-
   let editing = false;
 
   function toggleNavbar() {
     showMenu = !showMenu;
   }
 
-  function selectNotebook(notebook: NotebookType) {
-    selected_notebook = notebook;
-    toggleEditting(false);
-  }
-
   function toggleEditting(editing_state: boolean) {
     editing = editing_state;
+  }
+
+  function selectNotebook(notebook: NotebookType | null) {
+    selected_notebook = notebook;
+    toggleEditting(false);
   }
 
   function onCreate() {
     notebooks = createNotebook(notebooks);
 
+    // Selects last notebook in list, should be the newest notebook
     selectNotebook(notebooks[notebooks.length - 1]);
   }
+
   function onUpdate(notebook: NotebookType) {
     notebooks = updateNotebook(notebooks, notebook);
 
+    // Selects notebook that was updated
     const i = notebooks.findIndex((t) => t.id === notebook.id);
     selectNotebook(notebooks[i]);
   }
+
   function onRemove(notebook: NotebookType) {
     let i = notebooks.findIndex((t) => t.id === notebook.id);
-    if (i > 1) {
-      // notebook.id increments from 1, array index increments from 0
+    if (i > 0) {
       i = i - 1;
     }
 
     notebooks = removeNotebook(notebooks, notebook);
 
-    selectNotebook(notebooks[i]);
+    // Selects notebook before or first notebook. Selects null if no notebooks
+    if (notebooks.length < 1) {
+      selectNotebook(null);
+    } else {
+      selectNotebook(notebooks[i]);
+    }
   }
 </script>
 
@@ -59,7 +65,6 @@
     Use icons instead of names
     Alert/notifications
     Make default notebooks more interesting
-    Refactor, move functions to ts file
     Add unit testing
     Two scroll bars, one on content, one on editor bar
    -->
