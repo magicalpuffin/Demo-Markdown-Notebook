@@ -1,6 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher, onMount } from "svelte";
   import type { NotebookType } from "$lib/types/notebook";
+  import {clickOutside, focusOutside} from "$lib/utils/custom_events"
 
   const dispatch = createEventDispatcher();
 
@@ -47,37 +48,6 @@
     }
   }
 
-  export function clickOutside(node: HTMLElement) {
-    const handleClick = (event: MouseEvent) => {
-      if (!node.contains(event.target as Node)) {
-        node.dispatchEvent(new CustomEvent("click_outside"));
-      }
-    };
-
-    document.addEventListener("click", handleClick, true);
-
-    return {
-      destroy() {
-        document.removeEventListener("click", handleClick, true);
-      },
-    };
-  }
-
-  export function focusOutside(node: HTMLElement) {
-    const handleFocus = (event: Event) => {
-      if (!node.contains(event.target as Node)) {
-        node.dispatchEvent(new CustomEvent("focusin_outside"));
-      }
-    };
-
-    document.addEventListener("focusin", handleFocus, true);
-
-    return {
-      destroy() {
-        document.removeEventListener("focusin", handleFocus, true);
-      },
-    };
-  }
 </script>
 
 <div class="relative {selected ? 'border bg-blue-100' : ' hover:bg-blue-100'}">

@@ -2,6 +2,11 @@
   import NotebookBar from "$lib/components/notebook_bar/NotebookBar.svelte";
   import NotebookContent from "$lib/components/notebook_content/NotebookContent.svelte";
 
+  import {
+    updateNotebook,
+    removeNotebook,
+    createNotebook,
+  } from "$lib/utils/manage_notebook";
   import type { NotebookType } from "$lib/types/notebook";
 
   export let notebooks: NotebookType[] = [];
@@ -21,43 +26,31 @@
     toggleEditting(false);
   }
 
-  function updateNotebook(notebook: NotebookType) {
-    const i = notebooks.findIndex((t) => t.id === notebook.id);
-    notebooks[i] = { ...notebooks[i], ...notebook };
-
-    // reselects notebook due to mutation
-    selectNotebook(notebooks[i]);
-  }
-
-  function removeNotebook(notebook: NotebookType) {
-    notebooks = notebooks.filter((t) => t.id !== notebook.id);
-
-    let reselect_index: number = 0;
-    if (notebook.id > 1) {
-      // notebook.id increments from 1, array index increments from 0
-      reselect_index = notebook.id - 2;
-    }
-
-    selectNotebook(notebooks[reselect_index]);
-  }
-
-  function createNotebook() {
-    let new_notebook_id = 1;
-
-    if (notebooks.length > 0) {
-      new_notebook_id = Math.max(...notebooks.map((t) => t.id)) + 1;
-    }
-
-    let new_notebook: NotebookType = {
-      id: new_notebook_id,
-      name: "new notebook",
-      text: "",
-    };
-    notebooks = [...notebooks, new_notebook];
-  }
-
   function toggleEditting(editing_state: boolean) {
     editing = editing_state;
+  }
+
+  function onCreate() {
+    notebooks = createNotebook(notebooks);
+
+    selectNotebook(notebooks[notebooks.length - 1]);
+  }
+  function onUpdate(notebook: NotebookType) {
+    notebooks = updateNotebook(notebooks, notebook);
+
+    const i = notebooks.findIndex((t) => t.id === notebook.id);
+    selectNotebook(notebooks[i]);
+  }
+  function onRemove(notebook: NotebookType) {
+    let i = notebooks.findIndex((t) => t.id === notebook.id);
+    if (i > 1) {
+      // notebook.id increments from 1, array index increments from 0
+      i = i - 1;
+    }
+
+    notebooks = removeNotebook(notebooks, notebook);
+
+    selectNotebook(notebooks[i]);
   }
 </script>
 
@@ -98,17 +91,17 @@
     <NotebookBar
       {notebooks}
       {selected_notebook}
-      on:create={() => createNotebook()}
+      on:create={() => onCreate()}
       on:select={(e) => selectNotebook(e.detail)}
-      on:update={(e) => updateNotebook(e.detail)}
-      on:remove={(e) => removeNotebook(e.detail)}
+      on:update={(e) => onUpdate(e.detail)}
+      on:remove={(e) => onRemove(e.detail)}
     />
   </div>
   <div class="mx-4 grow md:w-2/3">
     <NotebookContent
       notebook={selected_notebook}
       {editing}
-      on:update={(e) => updateNotebook(e.detail)}
+      on:update={(e) => onUpdate(e.detail)}
       on:toggleEdit={(e) => toggleEditting(e.detail)}
     />
   </div>
