@@ -6,11 +6,11 @@
 
   export let notebook: NotebookType;
 
-  let notebook_text = notebook.text;
+  $: notebook_text = notebook.text;
   let editorEl: HTMLElement;
 
   let ace;
-  let editorsession: any = null;
+  let editor: any = null;
 
   // Custom implementation, similar to: https://github.com/nateshmbhat/svelte-ace
   onMount(async () => {
@@ -21,7 +21,7 @@
     // (await import("ace-builds/src/mode-markdown")).default;
     // (await import("ace-builds/src-noconflict/ext-language_tools")).default;
 
-    let editor = ace.edit(editorEl);
+    editor = ace.edit(editorEl);
     editor.setOptions({
       fontSize: 16,
       minLines: 5,
@@ -33,8 +33,18 @@
     editor.setValue(notebook_text);
     editor.moveCursorTo(0, 0);
     editor.focus();
-    editorsession = editor.getSession();
   });
+
+  $: updateEditorValue(notebook_text);
+
+  function updateEditorValue(new_value: string) {
+    // If the notebook changes, and component is not destroyed, set to new notebook text
+    if (editor != null) {
+      editor.setValue(new_value);
+      editor.moveCursorTo(0, 0);
+      editor.focus();
+    }
+  }
 
   function update(notebook_changes: Partial<NotebookType>) {
     notebook = { ...notebook, ...notebook_changes };
@@ -42,8 +52,8 @@
   }
 
   export function onSave() {
-    if (editorsession != null) {
-      notebook_text = editorsession.getValue();
+    if (editor != null) {
+      notebook_text = editor.getSession().getValue();
     }
     update({ text: notebook_text });
     dispatch("toggleEdit", false);

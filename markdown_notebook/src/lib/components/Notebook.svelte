@@ -9,13 +9,16 @@
   } from "$lib/utils/manage_notebook";
   import type { NotebookType } from "$lib/types/notebook";
 
+  import PlusIcon from "$lib/icons/PlusIcon.svelte";
+  import BookStackIcon from "$lib/icons/BookStackIcon.svelte";
+
   export let notebooks: NotebookType[] = [];
 
   let selected_notebook: NotebookType | null = notebooks[0];
-  let showMenu = false;
+  let showMenu = true;
   let editing = false;
 
-  function toggleNavbar() {
+  function toggleMenu() {
     showMenu = !showMenu;
   }
 
@@ -30,6 +33,7 @@
 
   function onCreate() {
     notebooks = createNotebook(notebooks);
+    showMenu = true;
 
     // Selects last notebook in list, should be the newest notebook
     selectNotebook(notebooks[notebooks.length - 1]);
@@ -68,42 +72,40 @@
     Make default notebooks more interesting
     Add unit testing
     Two scroll bars, one on content, one on editor bar
+
+    BUG:
+    When creating multiple blank notebooks in edit mode, focus is not set. This is such a uncommon edge case
    -->
 
-<div class="mt-2 flex w-full flex-col md:flex-row">
-  <button
-    on:click={toggleNavbar}
-    class="flex px-4 text-gray-800 hover:text-gray-400 focus:text-gray-400 focus:outline-none md:hidden"
-    type="button"
-  >
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke-width="1.5"
-      stroke="currentColor"
-      class="h-6 w-6"
-    >
-      <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-      />
-    </svg>
-  </button>
+<div class="flex w-full flex-col md:flex-row">
   <div
-    class="flex-col md:flex md:w-1/3 md:max-w-sm {showMenu ? 'flex' : 'hidden'}"
+    class="flex shrink-0 flex-row border-b md:w-12 md:flex-col md:items-center md:border-r"
+  >
+    <button
+      class="px-2 py-2 text-gray-800 hover:text-blue-400"
+      on:click={onCreate}><PlusIcon /></button
+    >
+    <button
+      class="rounded-md px-2 py-2 {showMenu
+        ? 'bg-gray-200 text-gray-800 hover:text-blue-400'
+        : 'text-gray-800 hover:text-blue-400'} "
+      on:click={toggleMenu}><BookStackIcon /></button
+    >
+  </div>
+  <div
+    class="flex-col border-b md:w-1/3 md:max-w-sm md:border-r {showMenu
+      ? 'flex'
+      : 'hidden'}"
   >
     <NotebookBar
       {notebooks}
       {selected_notebook}
-      on:create={() => onCreate()}
       on:select={(e) => selectNotebook(e.detail)}
       on:update={(e) => onUpdate(e.detail)}
       on:remove={(e) => onRemove(e.detail)}
     />
   </div>
-  <div class="mx-4 grow md:w-2/3">
+  <div class="mx-4 mt-2 grow md:w-2/3">
     <NotebookContent
       notebook={selected_notebook}
       {editing}
