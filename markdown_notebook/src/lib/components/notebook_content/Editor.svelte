@@ -25,12 +25,14 @@
     editor.setOptions({
       fontSize: 16,
       minLines: 5,
-      maxLines: 100,
+      maxLines: 999,
       mode: "ace/mode/markdown",
       printMargin: false,
       wrap: true,
     });
     editor.setValue(notebook_text);
+    editor.moveCursorTo(0, 0);
+    editor.focus();
     editorsession = editor.getSession();
   });
 
@@ -53,9 +55,10 @@
 </script>
 
 <form
+  class="rounded-lg border shadow-lg"
   on:submit|preventDefault={onSave}
   on:keydown={(e) => e.key === "Escape" && onCancel()}
   on:keydown={(e) => e.key === "Enter" && e.ctrlKey && onSave()}
 >
-  <div bind:this={editorEl} />
+  <div bind:this={editorEl} class="rounded-[inherit]" />
 </form>

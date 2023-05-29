@@ -19,7 +19,6 @@
   Bulk edit, bulk delete?
   Create new notebooks, icon, on different menu
   Button to collapse, allways visible
-  Auto start edit
   Dropdown menu should be a separate component
  -->
 

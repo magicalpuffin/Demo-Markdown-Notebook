@@ -17,17 +17,18 @@
 <!-- 
   TODO:
   Add a markdown preview
-  Edit focus incorrect, selects all text inside
  -->
 
 <div class="mx-auto flex flex-col md:max-w-screen-md">
   {#if notebook}
     <NotebookHeader on:toggleEdit {notebook} {editing} {editorInstance} />
-    {#if editing}
-      <Editor {notebook} on:update on:toggleEdit bind:this={editorInstance} />
-    {:else}
-      <Content {notebook} />
-    {/if}
+    <div class="my-4">
+      {#if editing}
+        <Editor {notebook} on:update on:toggleEdit bind:this={editorInstance} />
+      {:else}
+        <Content {notebook} />
+      {/if}
+    </div>
   {:else}
     <p>No notebook to display</p>
   {/if}

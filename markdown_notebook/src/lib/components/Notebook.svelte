@@ -33,6 +33,7 @@
 
     // Selects last notebook in list, should be the newest notebook
     selectNotebook(notebooks[notebooks.length - 1]);
+    toggleEditting(true);
   }
 
   function onUpdate(notebook: NotebookType) {
