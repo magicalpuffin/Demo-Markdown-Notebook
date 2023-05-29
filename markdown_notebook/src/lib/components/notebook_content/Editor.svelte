@@ -39,7 +39,7 @@
     dispatch("update", notebook);
   }
 
-  function onSave() {
+  export function onSave() {
     if (editorsession != null) {
       notebook_text = editorsession.getValue();
     }
@@ -47,25 +47,15 @@
     dispatch("toggleEdit", false);
   }
 
-  function onCancel() {
+  export function onCancel() {
     dispatch("toggleEdit", false);
   }
 </script>
 
-<form on:submit|preventDefault={onSave}>
-  <div class="flex flex-row justify-between">
-    <h1 class="text-xl font-bold">{notebook.name}</h1>
-    <div>
-      <button
-        class="rounded-lg border border-blue-600 px-4 text-blue-600 hover:bg-blue-600 hover:text-white"
-        type="submit">Save</button
-      >
-      <button
-        class="rounded-lg border border-red-600 px-4 text-red-600 hover:bg-red-600 hover:text-white"
-        type="button"
-        on:click={onCancel}>Cancel</button
-      >
-    </div>
-  </div>
+<form
+  on:submit|preventDefault={onSave}
+  on:keydown={(e) => e.key === "Escape" && onCancel()}
+  on:keydown={(e) => e.key === "Enter" && e.ctrlKey && onSave()}
+>
   <div bind:this={editorEl} />
 </form>

@@ -1,6 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher, onMount } from "svelte";
   import type { NotebookType } from "$lib/types/notebook";
+  import NotebookHeader from "./NotebookHeader.svelte";
   import Editor from "./Editor.svelte";
   import Content from "./Content.svelte";
 
@@ -9,6 +10,8 @@
   export let notebook: NotebookType | null;
 
   export let editing = false;
+
+  let editor_component: Editor;
 </script>
 
 <!-- 
@@ -20,10 +23,11 @@
 
 <div class="mx-auto flex flex-col md:max-w-screen-md">
   {#if notebook}
+    <NotebookHeader on:toggleEdit {notebook} {editing} {editor_component} />
     {#if editing}
-      <Editor {notebook} on:update on:toggleEdit />
+      <Editor {notebook} on:update on:toggleEdit bind:this={editor_component} />
     {:else}
-      <Content {notebook} on:toggleEdit />
+      <Content {notebook} />
     {/if}
   {:else}
     <p>No notebook to display</p>
