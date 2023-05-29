@@ -1,7 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher, onMount } from "svelte";
   import type { NotebookType } from "$lib/types/notebook";
-  import {clickOutside, focusOutside} from "$lib/utils/custom_events"
+  import { clickOutside, focusOutside } from "$lib/utils/custom_events";
 
   const dispatch = createEventDispatcher();
 
@@ -47,7 +47,6 @@
       node.focus();
     }
   }
-
 </script>
 
 <div class="relative {selected ? 'border bg-blue-100' : ' hover:bg-blue-100'}">
@@ -101,9 +100,9 @@
       on:click_outside={() => (showMenu = false)}
       on:focusin_outside={() => (showMenu = false)}
     >
-      <div class="mx-2 my-2 flex flex-col flex-nowrap">
+      <div class="my-2 flex flex-col flex-nowrap">
         <button
-          class="flex flex-row rounded-lg border border-blue-600 px-2 text-blue-600 hover:bg-blue-600 hover:text-white"
+          class="flex flex-row px-2 text-blue-600 hover:bg-blue-600 hover:text-white"
           on:click={() => (editing = true)}
         >
           <svg
@@ -120,13 +119,17 @@
               stroke-linecap="round"
               stroke-linejoin="round"
             /></svg
-          >Rename
+          >
+          <p class="pl-2">Rename</p>
         </button>
         <button
-          class="rounded-lg border border-red-600 px-2 text-red-600 hover:bg-red-600 hover:text-white"
+          class="flex flex-row px-2 text-red-600 hover:bg-red-600 hover:text-white"
           on:click={onRemove}
         >
-          X
+          <p class="flex h-6 w-6 items-center justify-center text-xl font-bold">
+            X
+          </p>
+          <p class="pl-2">Delete</p>
         </button>
       </div>
     </div>

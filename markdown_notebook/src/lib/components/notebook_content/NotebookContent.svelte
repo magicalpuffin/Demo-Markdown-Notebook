@@ -11,21 +11,20 @@
 
   export let editing = false;
 
-  let editor_component: Editor;
+  let editorInstance: Editor;
 </script>
 
 <!-- 
   TODO:
   Add a markdown preview
   Edit focus incorrect, selects all text inside
-  Notebook name kind of conflicts with other headers
  -->
 
 <div class="mx-auto flex flex-col md:max-w-screen-md">
   {#if notebook}
-    <NotebookHeader on:toggleEdit {notebook} {editing} {editor_component} />
+    <NotebookHeader on:toggleEdit {notebook} {editing} {editorInstance} />
     {#if editing}
-      <Editor {notebook} on:update on:toggleEdit bind:this={editor_component} />
+      <Editor {notebook} on:update on:toggleEdit bind:this={editorInstance} />
     {:else}
       <Content {notebook} />
     {/if}
