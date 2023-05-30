@@ -1,4 +1,5 @@
 <script lang="ts">
+  import SideBar from "$lib/components/SideBar.svelte";
   import NotebookBar from "$lib/components/notebook_bar/NotebookBar.svelte";
   import NotebookContent from "$lib/components/notebook_content/NotebookContent.svelte";
 
@@ -9,9 +10,6 @@
   } from "$lib/utils/manage_notebook";
   import type { NotebookType } from "$lib/types/notebook";
 
-  import PlusIcon from "$lib/icons/PlusIcon.svelte";
-  import BookStackIcon from "$lib/icons/BookStackIcon.svelte";
-
   export let notebooks: NotebookType[] = [];
 
   let selected_notebook: NotebookType | null = notebooks[0];
@@ -19,6 +17,7 @@
   let editing = false;
 
   function toggleMenu() {
+    // should have a better name for this button/menu
     showMenu = !showMenu;
   }
 
@@ -67,31 +66,19 @@
 
 <!-- 
     TODO:
-    Use icons instead of names
     Alert/notifications
     Make default notebooks more interesting
     Add unit testing
     Two scroll bars, one on content, one on editor bar
+    Top Navbar should compact better when in mobile view
 
     BUG:
     When creating multiple blank notebooks in edit mode, focus is not set. This is such a uncommon edge case
+    Investigate some weird mobile view fat finger menu selection weirdness?
    -->
 
 <div class="flex w-full flex-col md:flex-row">
-  <div
-    class="flex shrink-0 flex-row border-b md:w-12 md:flex-col md:items-center md:border-r"
-  >
-    <button
-      class="px-2 py-2 text-gray-800 hover:text-blue-400"
-      on:click={onCreate}><PlusIcon /></button
-    >
-    <button
-      class="rounded-md px-2 py-2 {showMenu
-        ? 'bg-gray-200 text-gray-800 hover:text-blue-400'
-        : 'text-gray-800 hover:text-blue-400'} "
-      on:click={toggleMenu}><BookStackIcon /></button
-    >
-  </div>
+  <SideBar {showMenu} on:clickCreate={onCreate} on:clickToggle={toggleMenu} />
   <div
     class="flex-col border-b md:w-1/3 md:max-w-sm md:border-r {showMenu
       ? 'flex'

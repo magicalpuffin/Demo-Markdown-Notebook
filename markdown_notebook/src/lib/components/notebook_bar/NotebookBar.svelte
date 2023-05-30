@@ -13,10 +13,8 @@
   TODO:
   Sort by name, or add order number and sortable?
   Bulk edit, bulk delete?
-  Create new notebooks, icon, on different menu
   Button to collapse, allways visible
-  Dropdown menu should be a separate component
-  
+  Dropdown menu should be a separate component  
  -->
 
 <div class="h-full bg-gray-100">
