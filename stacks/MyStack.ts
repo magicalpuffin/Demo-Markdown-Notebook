@@ -1,3 +1,4 @@
+import { Certificate } from "aws-cdk-lib/aws-certificatemanager";
 import { StaticSite } from "sst/constructs";
 import { StackContext } from "sst/constructs";
 
@@ -7,8 +8,15 @@ export function API({ stack }: StackContext) {
     buildOutput: "build",
     buildCommand: "npm run build",
     customDomain: {
+      isExternalDomain: true,
       domainName: "demo.markdown.puffinsystems.com",
-      hostedZone: "puffinsystems.com",
+      cdk: {
+        certificate: Certificate.fromCertificateArn(
+          stack,
+          "mycert",
+          process.env.CERT_ARN ?? ""
+        ),
+      },
     },
   });
 
